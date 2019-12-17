@@ -15,10 +15,10 @@ after_success:
   - docker build -t basha/multi-worker ./worker
   # Login to docker CLI
 
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin docker.io
   
   # Take those images and push them to docker hub
-  - docker push basha/multi-client
-  - docker push basha/multi-nginx
-  - docker push basha/multi-server
-  - docker push basha/multi-worker
+  - docker push basha/multi-client:latest
+  - docker push basha/multi-nginx:latest
+  - docker push basha/multi-server:latest
+  - docker push basha/multi-worker:latest
