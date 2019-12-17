@@ -3,22 +3,22 @@ services:
   - docker
 
 before_install:
-  - docker build -t basha/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t reddibasha/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run basha/react-test npm test -- --coverage --watchAll=false
+  - docker run reddibasha/react-test npm test -- --coverage --watchAll=false
 
 after_success:
-  - docker build -t basha/multi-client ./client
-  - docker build -t basha/multi-nginx ./nginx
-  - docker build -t basha/multi-server ./server
-  - docker build -t basha/multi-worker ./worker
+  - docker build -t reddibasha/multi-client ./client
+  - docker build -t reddibasha/multi-nginx ./nginx
+  - docker build -t reddibasha/multi-server ./server
+  - docker build -t reddibasha/multi-worker ./worker
   # Login to docker CLI
 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin docker.io
   
   # Take those images and push them to docker hub
-  - docker push basha/multi-client:latest
-  - docker push basha/multi-nginx:latest
-  - docker push basha/multi-server:latest
-  - docker push basha/multi-worker:latest
+  - docker push reddibasha/multi-client
+  - docker push reddibasha/multi-nginx
+  - docker push reddibasha/multi-server
+  - docker push reddibasha/multi-worker
