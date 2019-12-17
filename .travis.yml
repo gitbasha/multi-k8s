@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t basha/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run basha/react-test npm test -- --coverage --watchAll=false
+
+after_success:
+  - docker build -t basha/multi-client ./client
+  - docker build -t basha/multi-nginx ./nginx
+  - docker build -t basha/multi-server ./server
+  - docker build -t basha/multi-worker ./worker
+  # Login to docker CLI
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  
+  # Take those images and push them to docker hub
+  - docker push basha/multi-client
+  - docker push basha/multi-nginx
+  - docker push basha/multi-server
+  - docker push basha/multi-worker
